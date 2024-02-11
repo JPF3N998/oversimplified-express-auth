@@ -2,7 +2,6 @@ import constants from '../constants/index.js'
 
 const { HTTP_STATUS_CODES } = constants
 
-const HARDCODED_AUTHENTICATION = 'xyz321'
 /**
  * Authentication middleware
  * @param {Express.Request} req
@@ -10,9 +9,16 @@ const HARDCODED_AUTHENTICATION = 'xyz321'
  * @param {import('express').NextFunction} next 
  */
 export default function(req, res, next) {
-  if (req.cookies.jwt !== HARDCODED_AUTHENTICATION) {
+  /**
+   * In the real world, cookies, session, and storage are places
+   * we can check for authentication.
+   * 
+   * Instead of the hardcoded string, username + (password + salt) would
+   * be one way to conduct authentication
+   */
+  if (req.cookies.jwt !== constants.HARDCODED_AUTHENTICATION) {
     res.status(HTTP_STATUS_CODES.UNAUTHORIZED)
-    return
+    return res.end()
   }
   
   next()
